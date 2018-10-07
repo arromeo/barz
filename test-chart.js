@@ -1,7 +1,7 @@
 (function ($, window, document) {
   $(function() {
     elem = $("#test-chart");
-    barz([], {}, elem);
+    barz([], {"title-color": "red"}, elem);
   });
 
 }(window.jQuery, window, document));

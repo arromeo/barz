@@ -2,6 +2,19 @@
 // and render the chart.
 
 function barz(rawData, options, elem) {
-  // Test code. Will be removed.
-  elem.css("background-color", "blue").css("height", "100").css("width", "100");
+  var settings = setOptions(options);
+  // Test code. Will be deleted.
+  elem.css("color", settings["title-color"]);
+}
+
+// Initialize settings object using dafaults as a fall back.
+
+function setOptions(options) {
+  var defaults = {
+    "title-color": "blue",
+    "width": "700 px",
+    "height": "500 px"
+  };
+
+  return Object.assign(defaults, options);
 }
