@@ -52,6 +52,36 @@ function renderBarz(data, options, elem) {
   elem.css("width", options.width);
   elem.css("height", options.height);
 
+  // Set up div containers and apply some CSS properties.
+
+  var title = elem.text();
+  elem.text("");
+  elem.append($("<div>", {id: "title", class: "barz"}));
+  $("#title").text(title);
+  elem.append($("<div>", {id: "body", class: "barz"}));
+  $("#body").append($("<div>", {id: "y-label", class: "barz"}));
+  $("#body").append($("<div>", {id: "chart", class: "barz"}));
+  $("#body").append($("<div>", {id: "x-label", class: "barz"}));
+
+  $("#y-label").css("display", "inline-block");
+  $("#chart").css("display", "inline-block");
+
+  $(".barz").css("margin", "0").css("padding", "0");
+  $("#title").css({
+             "height": "10%",
+             "font-family": "Arial, Helvetica, sans-serif",
+             "font-size": "2em",
+             "text-align": "center",
+  });
+
+  $("#body").css("height", "90%").css("font-size","0");
+  $("#y-label").css("width", "20%").css("height", "80%");
+  $("#chart").css("width", "80%").css("height", "80%");
+  $("#x-label").css("width", "100%").css("height", "20%");
+
   // Test code. Will be removed.
-  elem.css("border-style", "solid").css("border-width", "2px");
+
+  $("#y-label").css("background-color", "blue");
+  $("#chart").css("background-color", "red");
+  $("#x-label").css("background-color", "green");
 }
