@@ -1,7 +1,7 @@
 (function ($, window, document) {
   $(function() {
     elem = $("#test-chart");
-    barz([], {}, elem);
+    barz([1, 8, 8, 3, "test"], {}, elem);
   });
 
 }(window.jQuery, window, document));

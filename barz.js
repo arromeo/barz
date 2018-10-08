@@ -3,7 +3,8 @@
 
 function barz(rawData, options, elem) {
   var settings = setOptions(options);
-  renderBarz(rawData, settings, elem);
+  var data = formatData(rawData);
+  renderBarz(data, settings, elem);
 }
 
 // Initialize settings object using dafaults as a fall back.
@@ -16,6 +17,32 @@ function setOptions(options) {
   };
 
   return Object.assign(defaults, options);
+}
+
+// Indexes the raw data and returns a data object for rendering
+
+function formatData(data) {
+  var sets = 0;
+  var dataSets = {};
+
+  //Enumerate through and index the raw data set.
+
+  for (var i = 0; i < data.length; i++) {
+    if (dataSets.hasOwnProperty(data[i])) {
+      dataSets[data[i]] ++;
+    } else {
+      dataSets[data[i]] = 1;
+      sets ++;
+    }
+  }
+
+  // Test code. Will be removed.
+  console.log(JSON.stringify(dataSets));
+
+  return {
+    "sets": sets,
+    "data": dataSets
+  };
 }
 
 // Apply settings and display barchart.
