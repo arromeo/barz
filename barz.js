@@ -36,9 +36,6 @@ function formatData(data) {
     }
   }
 
-  // Test code. Will be removed.
-  console.log(JSON.stringify(dataSets));
-
   return {
     "sets": sets,
     "data": dataSets
@@ -52,7 +49,7 @@ function renderBarz(data, options, elem) {
   elem.css("width", options.width);
   elem.css("height", options.height);
 
-  // Set up div containers and apply some CSS properties.
+  // Set up div containers.
 
   var title = elem.text();
   elem.text("");
@@ -63,10 +60,13 @@ function renderBarz(data, options, elem) {
   $("#body").append($("<div>", {id: "chart", class: "barz"}));
   $("#body").append($("<div>", {id: "x-label", class: "barz"}));
 
-  $("#y-label").css("display", "inline-block");
-  $("#chart").css("display", "inline-block");
+  // Apply CSS properties.
 
-  $(".barz").css("margin", "0").css("padding", "0");
+  $(".barz").css({
+            "margin": "0",
+            "padding": "0"
+  });
+
   $("#title").css({
              "height": "10%",
              "font-family": "Arial, Helvetica, sans-serif",
@@ -74,14 +74,28 @@ function renderBarz(data, options, elem) {
              "text-align": "center",
   });
 
-  $("#body").css("height", "90%").css("font-size","0");
-  $("#y-label").css("width", "20%").css("height", "80%");
-  $("#chart").css("width", "80%").css("height", "80%");
-  $("#x-label").css("width", "100%").css("height", "20%");
+  $("#body").css({
+            "height": "90%",
+            "font-size":"0"
+  });
 
-  // Test code. Will be removed.
+  $("#y-label").css({
+               "display": "inline-block",
+               "width": "15%",
+               "height": "80%"
+  });
 
-  $("#y-label").css("background-color", "blue");
-  $("#chart").css("background-color", "red");
-  $("#x-label").css("background-color", "green");
+  $("#chart").css({
+             "display": "inline-block",
+             "width": "84%",
+             "height": "80%",
+             "border-style": "solid",
+             "border-width": "thin"
+  });
+
+  $("#x-label").css({
+               "width": "100%",
+               "height": "20%"
+  });
+
 }
