@@ -2,8 +2,8 @@
 // and render the chart.
 
 function barz(rawData, options, elem) {
-  var settings = setOptions(options);
   var data = formatData(rawData);
+  var settings = setOptions(options);
   renderBarz(data, settings, elem);
 }
 
@@ -13,11 +13,28 @@ function setOptions(options) {
   var defaults = {
     "title-color": "black",
     "width": "700px",
-    "height": "500px"
+    "height": "500px",
+    "subtitle": "",
+    "spacing": "auto",
+    "y-label": "",
+    "x-label": ""
+  };
+
+  var minimums = {
+    "width": "400px",
+    "height": "400px"
+  };
+
+  var maximums = {
+    "width": "1500px",
+    "height": "900px"
   };
 
   return Object.assign(defaults, options);
 }
+
+
+
 
 // Indexes the raw data and returns a data object for rendering
 
@@ -25,7 +42,7 @@ function formatData(data) {
   var sets = 0;
   var dataSets = {};
 
-  //Enumerate through and index the raw data set.
+  // Enumerate through and index the raw data set.
 
   for (var i = 0; i < data.length; i++) {
     if (dataSets.hasOwnProperty(data[i])) {
@@ -36,11 +53,28 @@ function formatData(data) {
     }
   }
 
+  // Find the bar with the most results.
+
+  var upperLimit = (function() {
+    var result = 0;
+    for (var key in dataSets) {
+      if (dataSets[key] > result) {
+        result = dataSets[key];
+      }
+    }
+
+    return result;
+  })();
+
   return {
     "sets": sets,
+    "upperLimit": upperLimit,
     "data": dataSets
   };
 }
+
+
+
 
 // Apply settings and display barchart.
 
@@ -68,10 +102,12 @@ function renderBarz(data, options, elem) {
   });
 
   $("#title").css({
-             "height": "10%",
+             "height": "50px",
              "font-family": "Arial, Helvetica, sans-serif",
              "font-size": "2em",
+             "font-style": "italic",
              "text-align": "center",
+             "line-height": "50px"
   });
 
   $("#body").css({
