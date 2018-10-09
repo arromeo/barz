@@ -117,15 +117,15 @@ function renderBarz(data, options, elem) {
   var skip = Math.ceil(data.upperLimit / 5);
 
   for (var i = 0; i <= data.upperLimit + skip; i += skip) {
-    tickString = i.toString() + " –<br><br>" + tickString;
+    tickString = i.toString() + " –<br>" + tickString;
     ticks++;
   }
 
-  tickString = tickString.slice(0,-8);
+  tickString = tickString.slice(0,-4);
 
   var height = parseInt(options.height.slice(0,-2));
   var width = parseInt(options.width.slice(0,-2));
-  var tickSpace = Math.floor((height - 130) / (ticks * 2).toString());
+  var tickSpace = Math.floor((height - 115) / ticks).toString();
 
   $("#y-label").html(tickString);
 
@@ -163,6 +163,7 @@ function renderBarz(data, options, elem) {
                "font-size": "12px",
                "line-height": tickSpace + "px"
   });
+
   $("#chart").css({
              "display": "inline-block",
              "width": (width - 120).toString() + "px",
