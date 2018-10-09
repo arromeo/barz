@@ -14,26 +14,23 @@ function setOptions(options) {
     "title-color": "black",
     "width": "700px",
     "height": "500px",
-    "subtitle": "",
-    "spacing": "auto",
-    "y-label": "",
-    "x-label": ""
+    "spacing": "auto"
   };
 
   var settings = Object.assign(defaults, options);
 
   var minimums = {
-    "width": "400px",
+    "width": "800px",
     "height": "400px"
   };
 
   var maximums = {
-    "width": "1500px",
+    "width": "1200px",
     "height": "900px"
   };
 
-  var width = settings.width.slice(0,-2);
-  var height = settings.height.slice(0, -2);
+  var width = parseInt(settings.width.slice(0,-2));
+  var height = parseInt(settings.height.slice(0, -2));
 
   if (width < minimums.width) {
     settings.width = minimums.width;
@@ -110,12 +107,10 @@ function renderBarz(data, options, elem) {
   $("#title").text(title);
   elem.append($("<div>", {id: "body", class: "barz"}));
   $("#body").append($("<div>", {id: "y-label", class: "barz"}));
-  $("#y-label").append($("<div>", {id: "y-title"}));
-  $("#y-label").append($("<div>", {id: "y-numbers"}));
   $("#body").append($("<div>", {id: "chart", class: "barz"}));
   $("#body").append($("<div>", {id: "x-label", class: "barz"}));
 
-  // Apply CSS properties.
+  // CSS properties.
 
   $(".barz").css({
             "margin": "0",
@@ -138,6 +133,7 @@ function renderBarz(data, options, elem) {
 
   $("#y-label").css({
                "display": "inline-block",
+               "background-color": "blue",
                "width": "15%",
                "height": "80%"
   });
