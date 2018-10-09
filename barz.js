@@ -20,6 +20,8 @@ function setOptions(options) {
     "x-label": ""
   };
 
+  var settings = Object.assign(defaults, options);
+
   var minimums = {
     "width": "400px",
     "height": "400px"
@@ -30,7 +32,24 @@ function setOptions(options) {
     "height": "900px"
   };
 
-  return Object.assign(defaults, options);
+  var width = settings.width.slice(0,-2);
+  var height = settings.height.slice(0, -2);
+
+  if (width < minimums.width) {
+    settings.width = minimums.width;
+  }
+  if (width > maximums.width) {
+    settings.width = maximums.width;
+  }
+
+  if (height < minimums.height) {
+    settings.height = minimums.height;
+  }
+  if (height > maximums.width) {
+    settings.height = maximums.height;
+  }
+
+  return settings;
 }
 
 
@@ -91,6 +110,8 @@ function renderBarz(data, options, elem) {
   $("#title").text(title);
   elem.append($("<div>", {id: "body", class: "barz"}));
   $("#body").append($("<div>", {id: "y-label", class: "barz"}));
+  $("#y-label").append($("<div>", {id: "y-title"}));
+  $("#y-label").append($("<div>", {id: "y-numbers"}));
   $("#body").append($("<div>", {id: "chart", class: "barz"}));
   $("#body").append($("<div>", {id: "x-label", class: "barz"}));
 
@@ -126,7 +147,7 @@ function renderBarz(data, options, elem) {
              "width": "84%",
              "height": "80%",
              "border-style": "solid",
-             "border-width": "thin"
+             "border-width": "0 0 thin thin"
   });
 
   $("#x-label").css({
