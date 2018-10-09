@@ -110,7 +110,31 @@ function renderBarz(data, options, elem) {
   $("#body").append($("<div>", {id: "chart", class: "barz"}));
   $("#body").append($("<div>", {id: "x-label", class: "barz"}));
 
+  // Place ticks on side bar.
+
+  var tickString = "";
+  var ticks = 0;
+  var skip = Math.ceil(data.upperLimit / 5);
+
+  for (var i = 0; i <= data.upperLimit + skip; i += skip) {
+    tickString = i.toString() + " –<br><br>" + tickString;
+    ticks++;
+  }
+
+  tickString = tickString.slice(0,-8);
+
+  var height = parseInt(options.height.slice(0,-2));
+  var width = parseInt(options.width.slice(0,-2));
+  var tickSpace = Math.floor((height - 130) / (ticks * 2).toString());
+
+  $("#y-label").html(tickString);
+
   // CSS properties.
+
+  elem.css({
+      "display": "inline-block",
+      "background-color": "#C6E0FF"
+  });
 
   $(".barz").css({
             "margin": "0",
@@ -127,28 +151,31 @@ function renderBarz(data, options, elem) {
   });
 
   $("#body").css({
-            "height": "90%",
+            "height": (height - 50).toString() + "px",
             "font-size":"0"
   });
 
   $("#y-label").css({
                "display": "inline-block",
-               "background-color": "blue",
-               "width": "15%",
-               "height": "80%"
+               "width": "60px",
+               "height": (height - 130).toString() + "px",
+               "text-align": "right",
+               "font-size": "12px",
+               "line-height": tickSpace + "px"
   });
-
   $("#chart").css({
              "display": "inline-block",
-             "width": "84%",
-             "height": "80%",
+             "width": (width - 120).toString() + "px",
+             "height": (height - 130).toString() + "px",
              "border-style": "solid",
-             "border-width": "0 0 thin thin"
+             "border-width": "0 0 thin thin",
+             "margin-bottom": "2px",
+             "background-color": "white"
   });
 
   $("#x-label").css({
                "width": "100%",
-               "height": "20%"
+               "height": "65px"
   });
 
 }
