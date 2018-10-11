@@ -121,14 +121,25 @@ function renderBarz(data, options, elem) {
 
   var ticks = 0;
   var skip = 0;
+  var i = 0;
+  var middleTick = false;
 
-  if (data.upperLimit < 11) {
+  if (data.upperLimit < 6) {
     ticks = data.upperLimit;
     skip = 1;
+    i = ticks;
   } else {
-    ticks = 10;
+    ticks = 5;
     skip = Math.ceil(data.upperLimit / 5);
+    i = skip * 5;
   }
+
+  while (i > 0) {
+    $(chartId + " .barz-sidebar").append('<p class="tick">' + i + '–</p>');
+    i -= skip;
+  }
+
+
 
   // CSS properties.
 
@@ -175,7 +186,7 @@ function renderBarz(data, options, elem) {
 
   $(chartId + " .tick").css({
     "text-align": "right",
-    "line-height": ((height - 115) / (ticks + 0.5)).toString() + "px",
+    "line-height": Math.ceil((height - 115) / (ticks + 0.5)).toString() + "px",
     "margin": "0px",
     "vertical-align": "middle"
   });
