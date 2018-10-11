@@ -1,5 +1,5 @@
 // Call the Barz control flow object to apply settings, format data
-// and render the chart.
+// then render the chart.
 
 function barz(rawData, options, elem) {
   var data = formatData(rawData);
@@ -95,88 +95,111 @@ function formatData(data) {
 // Apply settings and display barchart.
 
 function renderBarz(data, options, elem) {
-  elem.css("color", options["title-color"]);
-  elem.css("width", options.width);
-  elem.css("height", options.height);
+
+  // Initialize variables used for display calculations.
+
+  var chartId = "#" + elem.attr("id");
+  var width = parseInt(options.width.slice(0,-2));
+  var height = parseInt(options.height.slice(0,-2));
+  var title = elem.text();
+  var padding = parseInt(options.spacing.slice(0,-2));
 
   // Set up div containers.
 
-  var title = elem.text();
   elem.text("");
-  elem.append($("<div>", {id: "title", class: "barz"}));
-  $("#title").text(title);
-  elem.append($("<div>", {id: "body", class: "barz"}));
-  $("#body").append($("<div>", {id: "y-label", class: "barz"}));
-  $("#body").append($("<div>", {id: "chart", class: "barz"}));
-  $("#body").append($("<div>", {id: "x-label", class: "barz"}));
+  elem.append($("<div>", { class: "barz-container" }));
+  $(chartId + " .barz-container").append($("<div>", { class: "barz-title"}));
+  $(chartId + " .barz-title").append($("<p>", {class: "barz-title-text"}));
+  $(chartId + " .barz-title-text").text(title);
+  $(chartId + " .barz-container").append($("<div>", { class: "barz-body"}));
+  $(chartId + " .barz-body").append($("<div>", { class: "barz-sidebar"}));
+  $(chartId + " .barz-body").append($("<div>", { class: "barz-content"}));
+  $(chartId + " .barz-body").append($("<div>", { class: "barz-bottombar"}));
+  $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-left-corner-pad"}));
 
-  // Place ticks on side bar.
+  // Place ticks in side bar.
 
-  var tickString = "";
   var ticks = 0;
-  var skip = Math.ceil(data.upperLimit / 5);
+  var skip = 0;
 
-  for (var i = 0; i <= data.upperLimit + skip; i += skip) {
-    tickString = i.toString() + " –<br>" + tickString;
-    ticks++;
+  if (data.upperLimit < 11) {
+    ticks = data.upperLimit;
+    skip = 1;
+  } else {
+    ticks = 10;
+    skip = Math.ceil(data.upperLimit / 5);
   }
-
-  tickString = tickString.slice(0,-4);
-
-  var height = parseInt(options.height.slice(0,-2));
-  var width = parseInt(options.width.slice(0,-2));
-  var tickSpace = Math.floor((height - 115) / ticks).toString();
-
-  $("#y-label").html(tickString);
 
   // CSS properties.
 
-  elem.css({
-      "display": "inline-block",
-      "background-color": "#C6E0FF"
+  $(chartId).css({
+    "display": "inline-block",
+    "margin": "0px",
+    "padding": "0px"
   });
 
-  $(".barz").css({
-            "margin": "0",
-            "padding": "0"
+  $(chartId + " .barz-container").css({
+    "display": "inline-block",
+    "height": options.height,
+    "width": options.width,
+    "background-color": "#C6E0FF"
   });
 
-  $("#title").css({
-             "height": "50px",
-             "font-family": "Arial, Helvetica, sans-serif",
-             "font-size": "2em",
-             "font-style": "italic",
-             "text-align": "center",
-             "line-height": "50px"
+  $(chartId + " .barz-title").css({
+    "display": "flex",
+    "height": "50px",
+    "width": options.width,
+    "color": options["title-color"]
   });
 
-  $("#body").css({
-            "height": (height - 50).toString() + "px",
-            "font-size":"0"
+  $(chartId + " .barz-title-text").css({
+    "margin": "auto",
+    "text-align": "center",
+    "font-family": "Ariel, Helvetica, sans-serif",
+    "font-style": "italic",
+    "font-size": "30px"
   });
 
-  $("#y-label").css({
-               "display": "inline-block",
-               "width": "60px",
-               "height": (height - 130).toString() + "px",
-               "text-align": "right",
-               "font-size": "12px",
-               "line-height": tickSpace + "px"
+  $(chartId + " .barz-body").css({
+    "display": "flex",
+    "flex-wrap": "wrap",
+    "height": (height - 50).toString() + "px",
+    "width": options.width
   });
 
-  $("#chart").css({
-             "display": "inline-block",
-             "width": (width - 120).toString() + "px",
-             "height": (height - 130).toString() + "px",
-             "border-style": "solid",
-             "border-width": "0 0 thin thin",
-             "margin-bottom": "2px",
-             "background-color": "white"
+  $(chartId + " .barz-sidebar").css({
+    "width": "50px",
+    "height": (height - 115).toString() + "px",
+    "overflow": "hidden"
   });
 
-  $("#x-label").css({
-               "width": "100%",
-               "height": "65px"
+  $(chartId + " .tick").css({
+    "text-align": "right",
+    "line-height": ((height - 115) / (ticks + 0.5)).toString() + "px",
+    "margin": "0px",
+    "vertical-align": "middle"
+  });
+
+  $(chartId + " .barz-content").css({
+    "display": "flex",
+    "align-items": "flex-end",
+    "width": (width - 100).toString() + "px",
+    "height": (height - 115).toString() + "px",
+    "border-style": "solid",
+    "border-width": "0 0 thin thin",
+    "background-color": "white"
+  });
+
+  $(chartId + " .barz-bottombar").css({
+    "display": "flex",
+    "align-items": "flex-start",
+    "height": "65px",
+    "width": options.width
+  });
+
+  $(chartId + " .barz-left-corner-pad").css({
+    "width": (50 + (padding / 2)).toString + "px",
+    "height": "65px"
   });
 
 }
