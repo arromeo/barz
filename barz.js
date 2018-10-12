@@ -2,8 +2,8 @@
 // then render the chart.
 
 function barz(rawData, options, elem) {
-  var data = formatData(rawData);
   var settings = setOptions(options);
+  var data = formatData(rawData, settings);
   renderBarz(data, settings, elem);
 }
 
@@ -54,38 +54,41 @@ function setOptions(options) {
 
 // Indexes the raw data and returns a data object for rendering
 
-function formatData(data) {
-  var sets = 0;
-  var dataSets = {};
+function formatData(data, options) {
+  var setCount = 0;
+  var keySets = [];
+  var dataSets = [];
 
-  // Enumerate through and index the raw data set.
-
-  for (var i = 0; i < data.length; i++) {
-    if (dataSets.hasOwnProperty(data[i])) {
-      dataSets[data[i]] ++;
+  for(var i = 0; i < data.length; i++) {
+    if (keySets.includes(data[i])) {
+      dataSets[keySets.indexOf(data[i])].value += 1;
     } else {
-      dataSets[data[i]] = 1;
-      sets ++;
+      keySets.push(data[i]);
+      dataSets.push({
+        id: data[i],
+        label: (options["bar-" + data[i] + "-label"] || data[i]),
+        value: options["bar-" + data[i] + "-value"] || 1,
+        color: options["bar-" + data[i] + "-color"] || "blue"
+      });
+      setCount++;
     }
   }
 
-  // Find the bar with the most results.
-
   var upperLimit = (function() {
     var result = 0;
-    for (var key in dataSets) {
-      if (dataSets[key] > result) {
-        result = dataSets[key];
+    for (var i = 0; i < dataSets.length; i++) {
+      if (dataSets[i].value > result) {
+        result = dataSets[i].value;
       }
     }
-
     return result;
   })();
 
+
   return {
-    "sets": sets,
+    "setCount": setCount,
     "upperLimit": upperLimit,
-    "data": dataSets
+    "sets": dataSets
   };
 }
 
@@ -102,8 +105,14 @@ function renderBarz(data, options, elem) {
   var width = parseInt(options.width.slice(0,-2));
   var height = parseInt(options.height.slice(0,-2));
   var title = elem.text();
-  var padding = parseInt(options.spacing.slice(0,-2));
 
+  if (options.spacing === "auto") {
+    padding = Math.ceil(((width - 100) / 3) / data.setCount);
+  } else {
+    padding = parseInt(options.spacing.slice(0, -2));
+  }
+
+  var barWidth = Math.ceil((width- 100 - (padding * data.setCount)) / data.setCount);
   // Set up div containers.
 
   elem.text("");
@@ -121,25 +130,49 @@ function renderBarz(data, options, elem) {
 
   var ticks = 0;
   var skip = 0;
-  var i = 0;
-  var middleTick = false;
 
-  if (data.upperLimit < 6) {
-    ticks = data.upperLimit;
-    skip = 1;
-    i = ticks;
-  } else {
-    ticks = 5;
-    skip = Math.ceil(data.upperLimit / 5);
-    i = skip * 5;
+  (function () {
+    var i = 0;
+
+    if (data.upperLimit < 6) {
+      ticks = data.upperLimit;
+      skip = 1;
+      i = ticks;
+    } else {
+      ticks = 5;
+      skip = Math.ceil(data.upperLimit / 5);
+      i = skip * 5;
+    }
+
+    while (i > 0) {
+      $(chartId + " .barz-sidebar").append('<p class="tick">' + i + '–</p>');
+      i -= skip;
+    }
+  })();
+
+  // Place spacers and bars.
+
+  var lineHeight = Math.ceil((height - 115) / (ticks + 0.5));
+
+  $(chartId + " .barz-content").append($("<div>", { class: "barz-halfpad" }));
+  $(chartId + " .barz-bottombar").append($("<div>", { class: "barz-left-corner-pad"}));
+
+  for (var i = 0; i < data.setCount; i++) {
+    var barCssId = "barz-bar-" + i.toString();
+    console.log(barCssId);
+    $(chartId + " .barz-content").append($("<div>", { class: barCssId}));
+
+    $(chartId + " ." + barCssId).css({
+      "width": barWidth.toString() + "px",
+      "height": (data.sets[i].value * (lineHeight / skip)).toString() + "px",
+      "background-color": "blue",
+      "flex": "none"
+    });
+
+    if (i + 1 < data.setCount ) {
+      $(chartId + " .barz-content").append($("<div>", { class: "barz-pad"}));
+    }
   }
-
-  while (i > 0) {
-    $(chartId + " .barz-sidebar").append('<p class="tick">' + i + '–</p>');
-    i -= skip;
-  }
-
-
 
   // CSS properties.
 
@@ -186,10 +219,22 @@ function renderBarz(data, options, elem) {
 
   $(chartId + " .tick").css({
     "text-align": "right",
-    "line-height": Math.ceil((height - 115) / (ticks + 0.5)).toString() + "px",
+    "line-height": lineHeight.toString() + "px",
     "margin": "0px",
     "vertical-align": "middle"
   });
+
+  $(chartId + " .barz-halfpad").css({
+    "width": Math.ceil(padding / 2).toString() + "px",
+    "height": "20px",
+    "flex": "none"
+  });
+
+  $(chartId + " .barz-pad").css({
+    "width": padding,
+    "height": "20px",
+    "flex": "none"
+  })
 
   $(chartId + " .barz-content").css({
     "display": "flex",
