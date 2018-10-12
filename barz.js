@@ -14,7 +14,8 @@ function setOptions(options) {
     "title-color": "black",
     "width": "700px",
     "height": "500px",
-    "spacing": "auto"
+    "spacing": "auto",
+    "multibar": "false"
   };
 
   var settings = Object.assign(defaults, options);
@@ -59,20 +60,43 @@ function formatData(data, options) {
   var keySets = [];
   var dataSets = [];
 
-  for(var i = 0; i < data.length; i++) {
-    if (keySets.includes(data[i])) {
-      dataSets[keySets.indexOf(data[i])].value += 1;
-    } else {
-      keySets.push(data[i]);
-      dataSets.push({
-        id: data[i],
-        label: (options["bar-" + data[i] + "-label"] || data[i]),
-        value: options["bar-" + data[i] + "-value"] || 1,
-        color: options["bar-" + data[i] + "-color"] || "blue"
-      });
-      setCount++;
+  // Bind raw data to data object and apply individual bar settings.
+
+  if (options.multibar === "false") {
+    for(var i = 0; i < data.length; i++) {
+      if (keySets.includes(data[i])) {
+        dataSets[keySets.indexOf(data[i])].value += 1;
+      } else {
+        keySets.push(data[i]);
+        dataSets.push({
+          id: data[i],
+          label: (options["bar-" + data[i] + "-label"] || data[i]),
+          value: options["bar-" + data[i] + "-value"] || 1,
+          color: options["bar-" + data[i] + "-color"] || "blue"
+        });
+        setCount++;
+      }
+    }
+  } else {
+    for(var i = 0; i < data.length; i++) {
+      if (!keySets.includes(data[i])) {
+        keySets.push(data[i]);
+        dataSets.push({
+          id: data[i],
+          label: (options["bar-" + data[i] + "-label"] || data[i]),
+          aValue: options["bar-" + data[i] + "-a-value"] || 0,
+          bValue: options["bar-" + data[i] + "-b-value"] || 0,
+          cValue: options["bar-" + data[i] + "-c-value"] || 0,
+          value: this.aValue + this.bValue + this.cValue,
+          aColor: options["a-color"] || "red",
+          bColor: options["b-color"] || "orange",
+          cColor: options["c-color"] || "yellow"
+        });
+      }
     }
   }
+
+  // Find the highest bar.
 
   var upperLimit = (function() {
     var result = 0;
@@ -159,13 +183,12 @@ function renderBarz(data, options, elem) {
 
   for (var i = 0; i < data.setCount; i++) {
     var barCssId = "barz-bar-" + i.toString();
-    console.log(barCssId);
     $(chartId + " .barz-content").append($("<div>", { class: barCssId}));
 
     $(chartId + " ." + barCssId).css({
       "width": barWidth.toString() + "px",
       "height": (data.sets[i].value * (lineHeight / skip)).toString() + "px",
-      "background-color": "blue",
+      "background-color": data.sets[i].color,
       "flex": "none"
     });
 
@@ -234,7 +257,7 @@ function renderBarz(data, options, elem) {
     "width": padding,
     "height": "20px",
     "flex": "none"
-  })
+  });
 
   $(chartId + " .barz-content").css({
     "display": "flex",
