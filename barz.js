@@ -87,15 +87,15 @@ function formatData(data, options) {
           aValue: options["bar-" + data[i] + "-a-value"] || 0,
           bValue: options["bar-" + data[i] + "-b-value"] || 0,
           cValue: options["bar-" + data[i] + "-c-value"] || 0,
-          value: this.aValue + this.bValue + this.cValue,
           aColor: options["a-color"] || "red",
           bColor: options["b-color"] || "orange",
           cColor: options["c-color"] || "yellow"
         });
       }
+      dataSets[i].value = dataSets[i].aValue + dataSets[i].bValue + dataSets[i].cValue;
+      console.log(JSON.stringify(dataSets[i]));
     }
   }
-
   // Find the highest bar.
 
   var upperLimit = (function() {
@@ -107,7 +107,6 @@ function formatData(data, options) {
     }
     return result;
   })();
-
 
   return {
     "setCount": setCount,
@@ -186,6 +185,8 @@ function renderBarz(data, options, elem) {
     $(chartId + " .barz-content").append($("<div>", { class: barCssId}));
 
     $(chartId + " ." + barCssId).css({
+      "display": "flex",
+      "flex-direction": "column",
       "width": barWidth.toString() + "px",
       "height": (data.sets[i].value * (lineHeight / skip)).toString() + "px",
       "background-color": data.sets[i].color,
@@ -194,6 +195,27 @@ function renderBarz(data, options, elem) {
 
     if (i + 1 < data.setCount ) {
       $(chartId + " .barz-content").append($("<div>", { class: "barz-pad"}));
+    }
+
+    if (options.multibar === "true") {
+      $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-a")}));
+      $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-b")}));
+      $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-c")}));
+      $(chartId + " ." + barCssId + "-a").css({
+        "background-color": data.sets[i].aColor,
+        "width": barWidth.toString() + "px",
+        "height": (data.sets[i].aValue * (lineHeight / skip)).toString() + "px",
+      });
+      $(chartId + " ." + barCssId + "-b").css({
+        "background-color": data.sets[i].bColor,
+        "width": barWidth.toString() + "px",
+        "height": (data.sets[i].bValue * (lineHeight / skip)).toString() + "px",
+      });
+      $(chartId + " ." + barCssId + "-c").css({
+        "background-color": data.sets[i].cColor,
+        "width": barWidth.toString() + "px",
+        "height":  (data.sets[i].cValue * (lineHeight / skip)).toString() + "px",
+      });
     }
   }
 
