@@ -93,7 +93,7 @@ function formatData(data, options) {
         });
       }
       dataSets[i].value = dataSets[i].aValue + dataSets[i].bValue + dataSets[i].cValue;
-      console.log(JSON.stringify(dataSets[i]));
+      setCount++;
     }
   }
   // Find the highest bar.
@@ -105,6 +105,7 @@ function formatData(data, options) {
         result = dataSets[i].value;
       }
     }
+    console.log(result);
     return result;
   })();
 
