@@ -15,7 +15,8 @@ function setOptions(options) {
     "width": "700px",
     "height": "500px",
     "spacing": "auto",
-    "multibar": "false"
+    "multibar": "false",
+    "label-color": "blue"
   };
 
   var settings = Object.assign(defaults, options);
@@ -89,7 +90,10 @@ function formatData(data, options) {
           cValue: options["bar-" + data[i] + "-c-value"] || 0,
           aColor: options["a-color"] || "red",
           bColor: options["b-color"] || "orange",
-          cColor: options["c-color"] || "yellow"
+          cColor: options["c-color"] || "yellow",
+          aLabel: options["a-label"] || "",
+          bLabel: options["b-label"] || "",
+          cLabel: options["c-label"] || ""
         });
       }
       dataSets[i].value = dataSets[i].aValue + dataSets[i].bValue + dataSets[i].cValue;
@@ -148,7 +152,6 @@ function renderBarz(data, options, elem) {
   $(chartId + " .barz-body").append($("<div>", { class: "barz-sidebar"}));
   $(chartId + " .barz-body").append($("<div>", { class: "barz-content"}));
   $(chartId + " .barz-body").append($("<div>", { class: "barz-bottombar"}));
-  $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-left-corner-pad"}));
 
   // Place ticks in side bar.
 
@@ -174,7 +177,7 @@ function renderBarz(data, options, elem) {
     }
   })();
 
-  // Place spacers and bars.
+  // Place spacers, bars, labels.
 
   var lineHeight = Math.ceil((height - 115) / (ticks + 0.5));
 
@@ -198,6 +201,8 @@ function renderBarz(data, options, elem) {
       $(chartId + " .barz-content").append($("<div>", { class: "barz-pad"}));
     }
 
+    // Multibar display.
+
     if (options.multibar === "true") {
       $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-a")}));
       $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-b")}));
@@ -218,6 +223,25 @@ function renderBarz(data, options, elem) {
         "height":  (data.sets[i].cValue * (lineHeight / skip)).toString() + "px",
       });
     }
+
+    // Place bar labels.
+
+    $(chartId + " .barz-bottombar").append($("<div>", {class: (barCssId + "-label-box")}));
+    $(chartId + " ." + barCssId + "-label-box").append($("<p>", {class: (barCssId + "-label")}));
+    $(chartId + " ." + barCssId + "-label").text(data.sets[i].label);
+
+    $(chartId + " ." + barCssId + "-label-box").css({
+      "display": "flex",
+      "height": "25px",
+      "width" : (barWidth + padding) + "px"
+    });
+
+    $(chartId + " ." + barCssId + "-label").css({
+      "margin": "auto",
+      "vertical-algin": "middle",
+      "color": data.sets[i]["label-color"]
+    });
+
   }
 
   // CSS properties.
@@ -300,7 +324,7 @@ function renderBarz(data, options, elem) {
   });
 
   $(chartId + " .barz-left-corner-pad").css({
-    "width": (50 + (padding / 2)).toString + "px",
+    "width": "50px",
     "height": "65px"
   });
 
