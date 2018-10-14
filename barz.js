@@ -134,24 +134,35 @@ function renderBarz(data, options, elem) {
   var chartId = "#" + elem.attr("id");
   var width = parseInt(options.width.slice(0,-2));
   var height = parseInt(options.height.slice(0,-2));
+  var sidebarWidth = 50;
   var title = elem.text();
 
+  if (options["y-axis-label"] !== "") {
+    sidebarWidth = 85;
+  }
+
   if (options.spacing === "auto") {
-    padding = Math.ceil(((width - 100) / 3) / data.setCount);
+    padding = Math.ceil(((width - sidebarWidth - 50) / 3) / data.setCount);
   } else {
     padding = parseInt(options.spacing.slice(0, -2));
   }
 
-  var barWidth = Math.ceil((width- 100 - (padding * data.setCount)) / data.setCount);
+  var barWidth = Math.ceil((width - sidebarWidth - 50 - (padding * data.setCount)) / data.setCount);
   // Set up div containers.
 
   elem.text("");
   elem.append($("<div>", { class: "barz-container" }));
   $(chartId + " .barz-container").append($("<div>", { class: "barz-title"}));
+  $(chartId + " .barz-title").append($("<div>", { class: "barz-left-corner-pad" }));
   $(chartId + " .barz-title").append($("<p>", {class: "barz-title-text"}));
   $(chartId + " .barz-title-text").text(title);
   $(chartId + " .barz-container").append($("<div>", { class: "barz-body"}));
-  $(chartId + " .barz-body").append($("<div>", { class: "barz-sidebar"}));
+  if (options["y-axis-label"] !== "") {
+    $(chartId + " .barz-body").append($("<div>", { class: "barz-y-label"}));
+    $(chartId + " .barz-y-label").append($("<p>", { class: "barz-y-label-text"}));
+    $(chartId + " .barz-y-label-text").text(options["y-axis-label"]);
+  }
+  $(chartId + " .barz-body").append($("<div>", { class: "barz-tickbar"}));
   $(chartId + " .barz-body").append($("<div>", { class: "barz-content"}));
   $(chartId + " .barz-body").append($("<div>", { class: "barz-bottombar"}));
 
@@ -174,7 +185,7 @@ function renderBarz(data, options, elem) {
     }
 
     while (i > 0) {
-      $(chartId + " .barz-sidebar").append('<p class="tick">' + i + '–</p>');
+      $(chartId + " .barz-tickbar").append('<p class="tick">' + i + '–</p>');
       i -= skip;
     }
   })();
@@ -248,10 +259,14 @@ function renderBarz(data, options, elem) {
 
   // Apply axis labels.
 
-  $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-left-corner-pad"}));
-  $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-x-label"}));
-  $(chartId + " .barz-x-label").append($("<p>", {class: "barz-x-label-text"}));
-  $(chartId + " .barz-x-label-text").text(options["x-axis-label"]);
+  if (options["x-axis-label"] !== "") {
+    $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-left-corner-pad"}));
+    $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-x-label"}));
+    $(chartId + " .barz-x-label").append($("<p>", {class: "barz-x-label-text"}));
+    $(chartId + " .barz-x-label-text").text(options["x-axis-label"]);
+  }
+
+
   // CSS properties.
 
   $(chartId).css({
@@ -289,7 +304,7 @@ function renderBarz(data, options, elem) {
     "width": options.width
   });
 
-  $(chartId + " .barz-sidebar").css({
+  $(chartId + " .barz-tickbar").css({
     "width": "50px",
     "height": (height - 115).toString() + "px",
     "overflow": "hidden"
@@ -299,7 +314,9 @@ function renderBarz(data, options, elem) {
     "text-align": "right",
     "line-height": lineHeight.toString() + "px",
     "margin": "0px",
-    "vertical-align": "middle"
+    "vertical-align": "middle",
+    "font-family": "Ariel, Helvetica, sans-serif",
+    "font-size": "12px"
   });
 
   $(chartId + " .barz-halfpad").css({
@@ -317,7 +334,7 @@ function renderBarz(data, options, elem) {
   $(chartId + " .barz-content").css({
     "display": "flex",
     "align-items": "flex-end",
-    "width": (width - 100).toString() + "px",
+    "width": (width - (sidebarWidth + 50)).toString() + "px",
     "height": (height - 115).toString() + "px",
     "border-style": "solid",
     "border-width": "0 0 thin thin",
@@ -329,13 +346,22 @@ function renderBarz(data, options, elem) {
     "flex-wrap": "wrap",
     "align-items": "flex-start",
     "height": "65px",
-    "width": (width - 50).toString() + "px"
+    "width": (width - 48).toString() + "px"
   });
 
   $(chartId + " .barz-x-label").css({
     "display": "flex",
     "height": "35px",
-    "width": (width - 100).toString() + "px"
+    "width": (width - (sidebarWidth + 50)).toString() + "px"
+  });
+
+  $(chartId + " .barz-y-label").css({
+    "display": "flex",
+    "height": (height - 115).toString() + "px",
+    "width": "35px",
+    "text-orientation": "sideways",
+    "writing-mode": "vertical-rl",
+    "transform": "rotate(180deg)"
   });
 
   $(chartId + " .barz-x-label-text").css({
@@ -345,8 +371,15 @@ function renderBarz(data, options, elem) {
     "font-size": "18px"
   });
 
+  $(chartId + " .barz-y-label-text").css({
+    "margin": "auto",
+    "vertical-align": "middle",
+    "font-family": "Ariel, Helvetica, sans-serif",
+    "font-size": "18px"
+  });
+
   $(chartId + " .barz-left-corner-pad").css({
-    "width": "50px",
+    "width": sidebarWidth.toString() + "px",
     "height": "25px"
   });
 
