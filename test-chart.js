@@ -6,6 +6,7 @@
       var elem2 = $("#test-chart-2");
       var chartOptions = {
         "multibar": "true",
+        "x-axis-label": "Test Label",
         "bar-1-label": "Q1",
         "bar-2-label": "Q2",
         "bar-3-label": "Q3",

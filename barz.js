@@ -16,7 +16,9 @@ function setOptions(options) {
     "height": "500px",
     "spacing": "auto",
     "multibar": "false",
-    "label-color": "blue"
+    "label-color": "blue",
+    "x-axis-label": "",
+    "y-axis-label": ""
   };
 
   var settings = Object.assign(defaults, options);
@@ -244,6 +246,12 @@ function renderBarz(data, options, elem) {
 
   }
 
+  // Apply axis labels.
+
+  $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-left-corner-pad"}));
+  $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-x-label"}));
+  $(chartId + " .barz-x-label").append($("<p>", {class: "barz-x-label-text"}));
+  $(chartId + " .barz-x-label-text").text(options["x-axis-label"]);
   // CSS properties.
 
   $(chartId).css({
@@ -318,14 +326,28 @@ function renderBarz(data, options, elem) {
 
   $(chartId + " .barz-bottombar").css({
     "display": "flex",
+    "flex-wrap": "wrap",
     "align-items": "flex-start",
     "height": "65px",
-    "width": options.width
+    "width": (width - 50).toString() + "px"
+  });
+
+  $(chartId + " .barz-x-label").css({
+    "display": "flex",
+    "height": "35px",
+    "width": (width - 100).toString() + "px"
+  });
+
+  $(chartId + " .barz-x-label-text").css({
+    "margin": "auto",
+    "vertical-align": "middle",
+    "font-family": "Ariel, Helvetica, sans-serif",
+    "font-size": "18px"
   });
 
   $(chartId + " .barz-left-corner-pad").css({
     "width": "50px",
-    "height": "65px"
+    "height": "25px"
   });
 
 }
