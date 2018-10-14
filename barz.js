@@ -92,7 +92,7 @@ function formatData(data, options) {
           cValue: options["bar-" + data[i] + "-c-value"] || 0,
           aColor: options["a-color"] || "#FF0000",
           bColor: options["b-color"] || "#00FF00",
-          cColor: options["c-color"] || "#0000FF",
+          cColor: options["c-color"] || "#A000FF",
           aLabel: options["a-label"] || "",
           bLabel: options["b-label"] || "",
           cLabel: options["c-label"] || ""
@@ -204,7 +204,6 @@ function renderBarz(data, options, elem) {
   for (var i = 0; i < data.setCount; i++) {
     var barCssId = "barz-bar-" + i.toString();
     $(chartId + " .barz-content").append($("<div>", { class: barCssId}));
-
     $(chartId + " ." + barCssId).css({
       "display": "flex",
       "align-items": "flex-start",
@@ -271,6 +270,14 @@ function renderBarz(data, options, elem) {
         "background-color": data.sets[i].cColor,
         "width": barWidth.toString() + "px",
         "height":  (data.sets[i].cValue * (lineHeight / skip)).toString() + "px",
+      });
+    } else {
+      $(chartId + " ." + barCssId).append($("<p>",{class: (barCssId + "-value-label")}));
+      $(chartId + " ." + barCssId + "-value-label").text(data.sets[i].value);
+      $(chartId + " ." + barCssId + "-value-label").css({
+        "margin": "auto",
+        "vertical-align": "middle",
+        "color": colorPicker(data.sets[i].color)
       });
     }
 
