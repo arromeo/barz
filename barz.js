@@ -90,9 +90,9 @@ function formatData(data, options) {
           aValue: options["bar-" + data[i] + "-a-value"] || 0,
           bValue: options["bar-" + data[i] + "-b-value"] || 0,
           cValue: options["bar-" + data[i] + "-c-value"] || 0,
-          aColor: options["a-color"] || "red",
-          bColor: options["b-color"] || "orange",
-          cColor: options["c-color"] || "yellow",
+          aColor: options["a-color"] || "#FF0000",
+          bColor: options["b-color"] || "#00FF00",
+          cColor: options["c-color"] || "#0000FF",
           aLabel: options["a-label"] || "",
           bLabel: options["b-label"] || "",
           cLabel: options["c-label"] || ""
@@ -148,6 +148,7 @@ function renderBarz(data, options, elem) {
   }
 
   var barWidth = Math.ceil((width - sidebarWidth - 50 - (padding * data.setCount)) / data.setCount);
+
   // Set up div containers.
 
   elem.text("");
@@ -157,6 +158,9 @@ function renderBarz(data, options, elem) {
   $(chartId + " .barz-title").append($("<p>", {class: "barz-title-text"}));
   $(chartId + " .barz-title-text").text(title);
   $(chartId + " .barz-container").append($("<div>", { class: "barz-body"}));
+
+  // Apply y-axis label if one exists.
+
   if (options["y-axis-label"] !== "") {
     $(chartId + " .barz-body").append($("<div>", { class: "barz-y-label"}));
     $(chartId + " .barz-y-label").append($("<p>", { class: "barz-y-label-text"}));
@@ -203,6 +207,7 @@ function renderBarz(data, options, elem) {
 
     $(chartId + " ." + barCssId).css({
       "display": "flex",
+      "align-items": "flex-start",
       "flex-direction": "column",
       "width": barWidth.toString() + "px",
       "height": (data.sets[i].value * (lineHeight / skip)).toString() + "px",
@@ -217,20 +222,52 @@ function renderBarz(data, options, elem) {
     // Multibar display.
 
     if (options.multibar === "true") {
+
+      //Fill in the bar with sub bars and display number inside bar.
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-a")}));
+      $(chartId + " ." + barCssId + "-a").append($("<p>", {class: (barCssId + "barz-bar-label-a")}));
+      if (data.sets[i].aValue > 0) {
+        $(chartId + " ." + barCssId + "barz-bar-label-a").text(data.sets[i].aValue);
+        $(chartId + " ." + barCssId + "barz-bar-label-a").css({
+          "margin": "auto",
+          "vertical-align": "middle",
+          "color": colorPicker(data.sets[i].aColor)
+        });
+      }
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-b")}));
+      $(chartId + " ." + barCssId + "-b").append($("<p>", {class: (barCssId + "barz-bar-label-b")}));
+      if (data.sets[i].bValue > 0) {
+        $(chartId + " ." + barCssId + "barz-bar-label-b").text(data.sets[i].bValue);
+        $(chartId + " ." + barCssId + "barz-bar-label-b").css({
+          "margin": "auto",
+          "vertical-align": "middle",
+          "color": colorPicker(data.sets[i].bColor)
+        });
+      }
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-c")}));
+      $(chartId + " ." + barCssId + "-c").append($("<p>", {class: (barCssId + "barz-bar-label-c")}));
+            if (data.sets[i].cValue > 0) {
+        $(chartId + " ." + barCssId + "barz-bar-label-c").text(data.sets[i].aValue);
+        $(chartId + " ." + barCssId + "barz-bar-label-c").css({
+          "margin": "auto",
+          "vertical-align": "middle",
+          "color": colorPicker(data.sets[i].cColor)
+        });
+      }
       $(chartId + " ." + barCssId + "-a").css({
+        "display": "flex",
         "background-color": data.sets[i].aColor,
         "width": barWidth.toString() + "px",
         "height": (data.sets[i].aValue * (lineHeight / skip)).toString() + "px",
       });
       $(chartId + " ." + barCssId + "-b").css({
+        "display": "flex",
         "background-color": data.sets[i].bColor,
         "width": barWidth.toString() + "px",
         "height": (data.sets[i].bValue * (lineHeight / skip)).toString() + "px",
       });
       $(chartId + " ." + barCssId + "-c").css({
+        "display": "flex",
         "background-color": data.sets[i].cColor,
         "width": barWidth.toString() + "px",
         "height":  (data.sets[i].cValue * (lineHeight / skip)).toString() + "px",
@@ -251,7 +288,7 @@ function renderBarz(data, options, elem) {
 
     $(chartId + " ." + barCssId + "-label").css({
       "margin": "auto",
-      "vertical-algin": "middle",
+      "vertical-align": "middle",
       "color": data.sets[i]["label-color"]
     });
 
@@ -383,4 +420,60 @@ function renderBarz(data, options, elem) {
     "height": "25px"
   });
 
+}
+
+function colorPicker (bgColor) {
+  bgColor = bgColor.slice(1);
+  var colors = [parseInt(bgColor.slice(0,2), 16),
+                parseInt(bgColor.slice(2,4), 16),
+                parseInt(bgColor.slice(4), 16)];
+
+  var r1 = colors[0] / 255;
+  var g1 = colors[1] / 255;
+  var b1 = colors[2] / 255;
+
+  var maxColor = Math.max(r1,g1,b1);
+  var minColor = Math.min(r1,g1,b1);
+
+  // Calculate luminosity.
+
+  var lumin = (maxColor + minColor) / 2 ;
+  var saturation = 0;
+  var hue = 0;
+  if(maxColor != minColor){
+
+      //Calculate saturation.
+
+      if(lumin < 0.5){
+          saturation = (maxColor - minColor) / (maxColor + minColor);
+      } else {
+          saturation = (maxColor - minColor) / (2.0 - maxColor - minColor);
+      }
+
+      //Calculate hue.
+
+      if (r1 == maxColor) {
+          hue = (g1 - b1) / (maxColor - minColor);
+      } else if (g1 == maxColor) {
+          hue = 2.0 + (b1 - r1) / (maxColor - minColor);
+      } else {
+          hue = 4.0 + (r1 - g1) / (maxColor - minColor);
+      }
+  }
+
+  lumin = lumin * 100;
+  saturation = saturation * 100;
+  hue = hue * 60;
+  if (hue < 0){
+    hue += 360;
+  }
+
+  if (lumin < 50.0) {
+    lumin = 85.00;
+  } else {
+    lumin = 15.00;
+  }
+  var hslString = "hsl(" + hue + ", " + saturation + "%, " + lumin + "%)";
+
+  return hslString;
 }
