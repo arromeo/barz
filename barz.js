@@ -12,45 +12,21 @@ function barz(rawData, options, elem) {
 function setOptions(options) {
   var defaults = {
     "title-color": "black",
+    "title-font-size": "30px",
+    "background-color": "#FFFFFF",
     "width": "700px",
     "height": "500px",
     "spacing": "auto",
     "multibar": "false",
-    "label-color": "blue",
+    "label-color": "#000000",
     "x-axis-label": "",
     "y-axis-label": ""
   };
 
-  var settings = Object.assign(defaults, options);
+  // Object.assign starts with the default object and overwrites any values that
+  // are also contained in the options object.
 
-  var minimums = {
-    "width": "800px",
-    "height": "400px"
-  };
-
-  var maximums = {
-    "width": "1200px",
-    "height": "900px"
-  };
-
-  var width = parseInt(settings.width.slice(0,-2));
-  var height = parseInt(settings.height.slice(0, -2));
-
-  if (width < minimums.width) {
-    settings.width = minimums.width;
-  }
-  if (width > maximums.width) {
-    settings.width = maximums.width;
-  }
-
-  if (height < minimums.height) {
-    settings.height = minimums.height;
-  }
-  if (height > maximums.width) {
-    settings.height = maximums.height;
-  }
-
-  return settings;
+  return Object.assign(defaults, options);
 }
 
 
@@ -166,6 +142,9 @@ function renderBarz(data, options, elem) {
     $(chartId + " .barz-y-label").append($("<p>", { class: "barz-y-label-text"}));
     $(chartId + " .barz-y-label-text").text(options["y-axis-label"]);
   }
+
+  // Continue with more div containers for the layout.
+
   $(chartId + " .barz-body").append($("<div>", { class: "barz-tickbar"}));
   $(chartId + " .barz-body").append($("<div>", { class: "barz-content"}));
   $(chartId + " .barz-body").append($("<div>", { class: "barz-bottombar"}));
@@ -204,6 +183,9 @@ function renderBarz(data, options, elem) {
   for (var i = 0; i < data.setCount; i++) {
     var barCssId = "barz-bar-" + i.toString();
     $(chartId + " .barz-content").append($("<div>", { class: barCssId}));
+
+    // CSS settings for bar, including height which is determined by value.
+
     $(chartId + " ." + barCssId).css({
       "display": "flex",
       "align-items": "flex-start",
@@ -245,8 +227,8 @@ function renderBarz(data, options, elem) {
       }
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-c")}));
       $(chartId + " ." + barCssId + "-c").append($("<p>", {class: (barCssId + "barz-bar-label-c")}));
-            if (data.sets[i].cValue > 0) {
-        $(chartId + " ." + barCssId + "barz-bar-label-c").text(data.sets[i].aValue);
+      if (data.sets[i].cValue > 0) {
+        $(chartId + " ." + barCssId + "barz-bar-label-c").text(data.sets[i].cValue);
         $(chartId + " ." + barCssId + "barz-bar-label-c").css({
           "margin": "auto",
           "vertical-align": "middle",
@@ -296,7 +278,7 @@ function renderBarz(data, options, elem) {
     $(chartId + " ." + barCssId + "-label").css({
       "margin": "auto",
       "vertical-align": "middle",
-      "color": data.sets[i]["label-color"]
+      "color": options["label-color"]
     });
 
   }
@@ -323,7 +305,7 @@ function renderBarz(data, options, elem) {
     "display": "inline-block",
     "height": options.height,
     "width": options.width,
-    "background-color": "#C6E0FF"
+    "background-color": options["background-color"]
   });
 
   $(chartId + " .barz-title").css({
@@ -338,7 +320,7 @@ function renderBarz(data, options, elem) {
     "text-align": "center",
     "font-family": "Ariel, Helvetica, sans-serif",
     "font-style": "italic",
-    "font-size": "30px"
+    "font-size": options["title-font-size"]
   });
 
   $(chartId + " .barz-body").css({
@@ -475,7 +457,7 @@ function colorPicker (bgColor) {
     hue += 360;
   }
 
-  if (lumin < 50.0) {
+  if (lumin < 50.0 || ( hue > 225 && hue < 270 )) {
     lumin = 85.00;
   } else {
     lumin = 15.00;
