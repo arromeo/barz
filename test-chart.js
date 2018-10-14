@@ -4,11 +4,12 @@
       var options1 = {
         "height": "500px",
         "width": "700px",
-        "bar-test-value": 12,
-        "bar-best-value": 18
+        "bar-Yes-value": 12,
+        "bar-No-value": 18,
+        "bar-Maybe-value": 8
       };
 
-      barz(["test", "best"], options1 , elem1);
+      barz(["Yes", "No", "Maybe"], options1 , elem1);
 
       var elem2 = $("#test-chart-2");
       var chartOptions = {
