@@ -206,9 +206,9 @@ function renderBarz(data, options, elem) {
     // Multibar display.
 
     if (options.multibar === "true") {
-      $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-a")}));
-      $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-b")}));
-      $(chartId + " ." + barCssId).append($("<div>", {class: (barCssId + "-c")}));
+      $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-a")}));
+      $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-b")}));
+      $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-c")}));
       $(chartId + " ." + barCssId + "-a").css({
         "background-color": data.sets[i].aColor,
         "width": barWidth.toString() + "px",
