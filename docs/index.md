@@ -33,7 +33,7 @@ Currently, Barz supports two types of graphs. Single-bar graphs and multi-bar gr
 The data array can be used to feed in raw data in series `[1,1,1,1,2,2]`  or it can be used to label the data, later passing in the value explicitly in the options object:
 
 ```js
-barz(["bar1", "bar2"], { "bar-1-value": 2, "bar-2-value": 1 }, elem);
+barz(["Q1", "Q2"], { "bar-Q1-value": 2000, "bar-Q2-value": 1000 }, elem);
 ```
 
 ### Options
