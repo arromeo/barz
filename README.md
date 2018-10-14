@@ -24,4 +24,4 @@ Once the document is completely loaded and the DOM is ready, run the barz functi
 barz(data, options, element);
 ```
 
-The data array can be used to feed in raw data in series `[1,1,1,1,2,2]`  or it can be used to label the data, later passing in the value explicitly in the options object `["bar1", "bar2"]`.
+To get the full details on how to structure the data array and all the available options, please see [documentation](https://arromeo.github.io/barz/).
