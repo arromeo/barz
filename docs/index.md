@@ -10,9 +10,9 @@ The only requirement to run Barz is jQuery. jQuery v3.3.1 was used to develop an
 
 All that is needed is to include the barz.js file after including jQuery.
 
-### Usage
+### Basic Usage
 
-First, place a div in the HTML. The id is used to identify the placeholder to the script. The text inside the tag is used as the chart's title.
+First, place a div in the HTML body where you would like the chart to display. The id is used to identify the placeholder to the script. The text inside the tag is used as the chart's title.
 
 ```html
 <div id="chart">Test Chart</div>
@@ -24,4 +24,18 @@ Once the document is completely loaded and the DOM is ready, run the barz functi
 barz(data, options, element);
 ```
 
-The data array can be used to feed in raw data in series `[1,1,1,1,2,2]`  or it can be used to label the data, later passing in the value explicitly in the options object `["bar1", "bar2"]`.
+### Graph Types
+
+Currently, Barz supports two types of graphs. Single-bar graphs and multi-bar graphs. The default is for a single bar. To setup a multi-bar add `"multibar": true` to the options object.
+
+### Data Array
+
+The data array can be used to feed in raw data in series `[1,1,1,1,2,2]`  or it can be used to label the data, later passing in the value explicitly in the options object:
+
+```js
+barz(["bar1", "bar2"], { "bar-1-value": 2, "bar-2-value": 1 }, elem);
+```
+
+### Options
+
+With Barz, the options are passed in using a JS object. It's recommended to create an options object outside of the function call to help with readability.
