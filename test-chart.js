@@ -1,13 +1,20 @@
 (function ($, window, document) {
   $(function() {
-      var elem = $("#test-chart");
-      barz([1,2,3,2,1,2,1,1], {"height": "200px", "width": "400px"}, elem);
+      var elem1 = $("#test-chart");
+      var options1 = {
+        "height": "500px",
+        "width": "700px",
+        "bar-test-value": 12,
+        "bar-best-value": 18
+      };
+
+      barz(["test", "best"], options1 , elem1);
 
       var elem2 = $("#test-chart-2");
       var chartOptions = {
         "multibar": "true",
-        "x-axis-label": "Test Label",
-        "y-axis-label": "Test Label",
+        "x-axis-label": "X-Axis Label",
+        "y-axis-label": "Y-Axis Label",
         "bar-1-label": "Q1",
         "bar-2-label": "Q2",
         "bar-3-label": "Q3",

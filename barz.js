@@ -51,7 +51,7 @@ function formatData(data, options) {
           id: data[i],
           label: (options["bar-" + data[i] + "-label"] || data[i]),
           value: options["bar-" + data[i] + "-value"] || 1,
-          color: options["bar-" + data[i] + "-color"] || "blue"
+          color: options["bar-" + data[i] + "-color"] || "#0000FF"
         });
         setCount++;
       }
