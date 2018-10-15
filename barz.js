@@ -14,10 +14,11 @@ function setOptions(options) {
     "title-color": "black",
     "title-font-size": "30px",
     "background-color": "#FFFFFF",
+    "chart-color": "#FFFFFF",
     "width": "700px",
     "height": "500px",
     "spacing": "auto",
-    "multibar": "false",
+    "multibar": false,
     "label-color": "#000000",
     "x-axis-label": "",
     "y-axis-label": ""
@@ -41,7 +42,7 @@ function formatData(data, options) {
 
   // Bind raw data to data object and apply individual bar settings.
 
-  if (options.multibar === "false") {
+  if (options.multibar === false) {
     for(var i = 0; i < data.length; i++) {
       if (keySets.includes(data[i])) {
         dataSets[keySets.indexOf(data[i])].value += 1;
@@ -202,7 +203,7 @@ function renderBarz(data, options, elem) {
 
     // Multibar display.
 
-    if (options.multibar === "true") {
+    if (options.multibar === true) {
 
       //Fill in the bar with sub bars and display number inside bar.
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-a")}));
@@ -364,7 +365,7 @@ function renderBarz(data, options, elem) {
     "height": (height - 115).toString() + "px",
     "border-style": "solid",
     "border-width": "0 0 thin thin",
-    "background-color": "white"
+    "background-color": options["chart-color"]
   });
 
   $(chartId + " .barz-bottombar").css({

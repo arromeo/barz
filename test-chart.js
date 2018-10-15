@@ -6,14 +6,15 @@
         "width": "700px",
         "bar-Yes-value": 12,
         "bar-No-value": 18,
-        "bar-Maybe-value": 8
+        "bar-Maybe-value": 8,
+        "spacing": "10px"
       };
 
       barz(["Yes", "No", "Maybe"], options1 , elem1);
 
       var elem2 = $("#test-chart-2");
       var chartOptions = {
-        "multibar": "true",
+        "multibar": true,
         "x-axis-label": "X-Axis Label",
         "y-axis-label": "Y-Axis Label",
         "bar-1-label": "Q1",
