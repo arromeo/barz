@@ -1,3 +1,7 @@
+---
+title: Documentation
+---
+
 ### Prerequisites
 
 The only requirement to run Barz is jQuery. jQuery v3.3.1 was used to develop and test the library, but other versions should work.
