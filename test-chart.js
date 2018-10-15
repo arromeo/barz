@@ -7,7 +7,8 @@
         "bar-Yes-value": 12,
         "bar-No-value": 18,
         "bar-Maybe-value": 8,
-        "spacing": "10px"
+        "spacing": "10px",
+        "display-numbers": false
       };
 
       barz(["Yes", "No", "Maybe"], options1 , elem1);

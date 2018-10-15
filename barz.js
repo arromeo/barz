@@ -18,6 +18,7 @@ function setOptions(options) {
     "width": "700px",
     "height": "500px",
     "spacing": "auto",
+    "display-numbers": true,
     "multibar": false,
     "label-color": "#000000",
     "x-axis-label": "",
@@ -207,34 +208,39 @@ function renderBarz(data, options, elem) {
 
       //Fill in the bar with sub bars and display number inside bar.
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-a")}));
-      $(chartId + " ." + barCssId + "-a").append($("<p>", {class: (barCssId + "barz-bar-label-a")}));
-      if (data.sets[i].aValue > 0) {
-        $(chartId + " ." + barCssId + "barz-bar-label-a").text(data.sets[i].aValue);
-        $(chartId + " ." + barCssId + "barz-bar-label-a").css({
-          "margin": "auto",
-          "vertical-align": "middle",
-          "color": colorPicker(data.sets[i].aColor)
-        });
-      }
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-b")}));
-      $(chartId + " ." + barCssId + "-b").append($("<p>", {class: (barCssId + "barz-bar-label-b")}));
-      if (data.sets[i].bValue > 0) {
-        $(chartId + " ." + barCssId + "barz-bar-label-b").text(data.sets[i].bValue);
-        $(chartId + " ." + barCssId + "barz-bar-label-b").css({
-          "margin": "auto",
-          "vertical-align": "middle",
-          "color": colorPicker(data.sets[i].bColor)
-        });
-      }
       $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-c")}));
-      $(chartId + " ." + barCssId + "-c").append($("<p>", {class: (barCssId + "barz-bar-label-c")}));
-      if (data.sets[i].cValue > 0) {
-        $(chartId + " ." + barCssId + "barz-bar-label-c").text(data.sets[i].cValue);
-        $(chartId + " ." + barCssId + "barz-bar-label-c").css({
-          "margin": "auto",
-          "vertical-align": "middle",
-          "color": colorPicker(data.sets[i].cColor)
-        });
+
+      if (options["display-numbers"] === true) {
+        $(chartId + " ." + barCssId + "-a").append($("<p>", {class: (barCssId + "barz-bar-label-a")}));
+        if (data.sets[i].aValue > 0) {
+          $(chartId + " ." + barCssId + "barz-bar-label-a").text(data.sets[i].aValue);
+          $(chartId + " ." + barCssId + "barz-bar-label-a").css({
+            "margin": "auto",
+            "vertical-align": "middle",
+            "color": colorPicker(data.sets[i].aColor)
+          });
+        }
+
+        $(chartId + " ." + barCssId + "-b").append($("<p>", {class: (barCssId + "barz-bar-label-b")}));
+        if (data.sets[i].bValue > 0) {
+          $(chartId + " ." + barCssId + "barz-bar-label-b").text(data.sets[i].bValue);
+          $(chartId + " ." + barCssId + "barz-bar-label-b").css({
+            "margin": "auto",
+            "vertical-align": "middle",
+            "color": colorPicker(data.sets[i].bColor)
+          });
+        }
+
+        $(chartId + " ." + barCssId + "-c").append($("<p>", {class: (barCssId + "barz-bar-label-c")}));
+        if (data.sets[i].cValue > 0) {
+          $(chartId + " ." + barCssId + "barz-bar-label-c").text(data.sets[i].cValue);
+          $(chartId + " ." + barCssId + "barz-bar-label-c").css({
+            "margin": "auto",
+            "vertical-align": "middle",
+            "color": colorPicker(data.sets[i].cColor)
+          });
+        }
       }
       $(chartId + " ." + barCssId + "-a").css({
         "display": "flex",
@@ -255,13 +261,15 @@ function renderBarz(data, options, elem) {
         "height":  (data.sets[i].cValue * (lineHeight / skip)).toString() + "px",
       });
     } else {
-      $(chartId + " ." + barCssId).append($("<p>",{class: (barCssId + "-value-label")}));
-      $(chartId + " ." + barCssId + "-value-label").text(data.sets[i].value);
-      $(chartId + " ." + barCssId + "-value-label").css({
-        "margin": "auto",
-        "vertical-align": "middle",
-        "color": colorPicker(data.sets[i].color)
-      });
+      if (options["display-number"] === true) {
+        $(chartId + " ." + barCssId).append($("<p>",{class: (barCssId + "-value-label")}));
+        $(chartId + " ." + barCssId + "-value-label").text(data.sets[i].value);
+        $(chartId + " ." + barCssId + "-value-label").css({
+          "margin": "auto",
+          "vertical-align": "middle",
+          "color": colorPicker(data.sets[i].color)
+        });
+      }
     }
 
     // Place bar labels.
