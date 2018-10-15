@@ -46,4 +46,4 @@ If the value is set explicitly in the options, any duplicate values in the data 
 
 ### Options
 
-With Barz, the options are passed in using a JS object. It's recommended to create an options object outside of the function call to help with readability. For a full list of settings, see the [options](https://arromeo.github.io/barz/options.md) page.
+With Barz, the options are passed in using a JS object. It's recommended to create an options object outside of the function call to help with readability. For a full list of settings, see the [options](https://arromeo.github.io/barz/options) page.
