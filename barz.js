@@ -328,7 +328,8 @@ function renderBarz(data, options, elem) {
       $(chartId + " .a-multi-label").css({
         "font-size": "12px",
         "margin-top": "auto",
-        "padding": "0px 15px 0px 5px"
+        "padding": "0px 15px 0px 5px",
+        "font-family": "Ariel, Helvetica, sans-serif"
       });
       $(chartId + " .a-multi-label").text(options["a-label"]);
     }
@@ -345,7 +346,8 @@ function renderBarz(data, options, elem) {
       $(chartId + " .b-multi-label").css({
         "font-size": "12px",
         "margin-top": "auto",
-        "padding": "0px 15px 0px 5px"
+        "padding": "0px 15px 0px 5px",
+        "font-family": "Ariel, Helvetica, sans-serif"
       });
       $(chartId + " .b-multi-label").text(options["b-label"]);
     }
@@ -362,7 +364,8 @@ function renderBarz(data, options, elem) {
       $(chartId + " .c-multi-label").css({
         "font-size": "12px",
         "margin-top": "auto",
-        "padding": "0px 15px 0px 5px"
+        "padding": "0px 15px 0px 5px",
+        "font-family": "Ariel, Helvetica, sans-serif",
       });
       $(chartId + " .c-multi-label").text(options["c-label"]);
     }
