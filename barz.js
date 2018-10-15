@@ -314,6 +314,8 @@ function renderBarz(data, options, elem) {
     $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-left-corner-pad"}));
     $(chartId + " .barz-bottombar").append($("<div>", {class: "barz-multi-labels"}));
 
+    // Creates a small color box and places a label to the right of it.
+
     if (options["a-label"] !== "") {
       $(chartId + " .barz-multi-labels").append($("<div>", {class: "a-color-box"}));
       $(chartId + " .a-color-box").css({
@@ -326,8 +328,7 @@ function renderBarz(data, options, elem) {
       $(chartId + " .a-multi-label").css({
         "font-size": "12px",
         "margin-top": "auto",
-        "margin-left": "10px",
-        "margin-right": "10px"
+        "padding": "0px 15px 0px 5px"
       });
       $(chartId + " .a-multi-label").text(options["a-label"]);
     }
@@ -344,8 +345,7 @@ function renderBarz(data, options, elem) {
       $(chartId + " .b-multi-label").css({
         "font-size": "12px",
         "margin-top": "auto",
-        "margin-left": "10px",
-        "margin-right": "10px"
+        "padding": "0px 15px 0px 5px"
       });
       $(chartId + " .b-multi-label").text(options["b-label"]);
     }
@@ -362,8 +362,7 @@ function renderBarz(data, options, elem) {
       $(chartId + " .c-multi-label").css({
         "font-size": "12px",
         "margin-top": "auto",
-        "margin-left": "10px",
-        "margin-right": "10px"
+        "padding": "0px 15px 0px 5px"
       });
       $(chartId + " .c-multi-label").text(options["c-label"]);
     }
@@ -514,7 +513,7 @@ function colorPicker (bgColor) {
   var hue = 0;
   if(maxColor != minColor){
 
-      //Calculate saturation.
+      // Calculate saturation.
 
       if(lumin < 0.5){
           saturation = (maxColor - minColor) / (maxColor + minColor);
@@ -522,7 +521,7 @@ function colorPicker (bgColor) {
           saturation = (maxColor - minColor) / (2.0 - maxColor - minColor);
       }
 
-      //Calculate hue.
+      // Calculate hue.
 
       if (r1 == maxColor) {
           hue = (g1 - b1) / (maxColor - minColor);
@@ -539,6 +538,9 @@ function colorPicker (bgColor) {
   if (hue < 0){
     hue += 360;
   }
+
+  // If the color is bright, it makes the label dark. If it's dark, it makes
+  // the label bright.
 
   if (lumin < 50.0 || ( hue > 225 && hue < 270 )) {
     lumin = 85.00;
