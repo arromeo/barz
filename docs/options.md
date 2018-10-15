@@ -1,3 +1,7 @@
+---
+title: Options
+---
+
 ##Options
 Barz applies user settings using an options object. You can set any amount of options you would like and in any order.
 
