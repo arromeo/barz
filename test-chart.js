@@ -29,7 +29,10 @@
         "bar-2-c-value": 24,
         "bar-3-a-value": 30,
         "bar-3-b-value": 0,
-        "bar-3-c-value": 12
+        "bar-3-c-value": 12,
+        "a-label": "Label A",
+        "b-label": "Label B",
+        "c-label": "Label C"
       };
       barz([1, 2, 3], chartOptions , elem2);
   });
