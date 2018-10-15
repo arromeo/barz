@@ -1,7 +1,3 @@
-# Barz
-
-Barz is a JS library to configure and display custom bar charts.
-
 ### Prerequisites
 
 The only requirement to run Barz is jQuery. jQuery v3.3.1 was used to develop and test the library, but other versions should work.
@@ -26,15 +22,23 @@ barz(data, options, element);
 
 ### Graph Types
 
-Currently, Barz supports two types of graphs. Single-bar graphs and multi-bar graphs. The default is for a single bar. To setup a multi-bar add `"multibar": true` to the options object.
+Currently, Barz supports two types of graphs. Single-bar graphs and multi-bar graphs. The default is for a single bar.
+
+![single bar example](https://raw.githubusercontent.com/arromeo/barz/master/docs/single-bar-example.png)
+
+To setup a multi-bar add `"multibar": true` to the options object.
+
+![multi bar example](https://raw.githubusercontent.com/arromeo/barz/master/docs/multi-bar-example.png)
 
 ### Data Array
 
 The data array can be used to feed in raw data in series `[1,1,1,1,2,2]`  or it can be used to label the data, later passing in the value explicitly in the options object:
 
 ```js
-barz(["Q1", "Q2"], { "bar-Q1-value": 2000, "bar-Q2-value": 1000 }, elem);
+barz(["Q1", "Q2"], { "bar-Q1-value": 2, "bar-Q2-value": 1 }, elem);
 ```
+
+If the value is set explicitly in the options, any duplicate values in the data array will be added to that total.
 
 ### Options
 
