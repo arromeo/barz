@@ -44,30 +44,27 @@ function setOptions(options) {
 
 function formatData(data, options) {
   var setCount = 0;
-  var keySets = [];
+  var keySet = [];
   var dataSets = [];
 
   // Bind raw data to data object and apply individual bar settings.
 
-  if (options.multibar === false) {
-    for(var i = 0; i < data.length; i++) {
-      if (keySets.includes(data[i])) {
-        dataSets[keySets.indexOf(data[i])].value += 1;
+  for(var i = 0; i < data.length; i++) {
+    if (options.multibar === false) {
+      if (keySet.includes(data[i])) {
+        dataSets[keySet.indexOf(data[i])].value += 1;
       } else {
-        keySets.push(data[i]);
+        keySet.push(data[i]);
         dataSets.push({
           id: data[i],
           label: options["bar-" + data[i] + "-label"] || data[i],
           value: options["bar-" + data[i] + "-value"] || 1,
           color: options["bar-" + data[i] + "-color"] || "#0000FF"
         });
-        setCount++;
       }
-    }
-  } else {
-    for(var i = 0; i < data.length; i++) {
-      if (!keySets.includes(data[i])) {
-        keySets.push(data[i]);
+    } else {
+      if (!keySet.includes(data[i])) {
+        keySet.push(data[i]);
         dataSets.push({
           id: data[i],
           label: (options["bar-" + data[i] + "-label"] || data[i]),
@@ -78,8 +75,8 @@ function formatData(data, options) {
       }
       dataSets[i].value = dataSets[i].aValue + dataSets[i].bValue +
                           dataSets[i].cValue;
-      setCount++;
     }
+    setCount++;
   }
   // Find the highest bar.
 
@@ -531,12 +528,12 @@ function colorPicker (bgColor) {
                 parseInt(bgColor.slice(2,4), 16),
                 parseInt(bgColor.slice(4), 16)];
 
-  var r1 = colors[0] / 255;
-  var g1 = colors[1] / 255;
-  var b1 = colors[2] / 255;
+  var red = colors[0] / 255;
+  var green = colors[1] / 255;
+  var blue = colors[2] / 255;
 
-  var maxColor = Math.max(r1,g1,b1);
-  var minColor = Math.min(r1,g1,b1);
+  var maxColor = Math.max(red, green, blue);
+  var minColor = Math.min(red, green, blue);
 
   // Calculate luminosity.
 
@@ -555,12 +552,12 @@ function colorPicker (bgColor) {
 
       // Calculate hue.
 
-      if (r1 == maxColor) {
-          hue = (g1 - b1) / (maxColor - minColor);
-      } else if (g1 == maxColor) {
-          hue = 2.0 + (b1 - r1) / (maxColor - minColor);
+      if (red == maxColor) {
+          hue = (green - blue) / (maxColor - minColor);
+      } else if (green == maxColor) {
+          hue = 2.0 + (blue - red) / (maxColor - minColor);
       } else {
-          hue = 4.0 + (r1 - g1) / (maxColor - minColor);
+          hue = 4.0 + (red - green) / (maxColor - minColor);
       }
   }
 
