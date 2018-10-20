@@ -82,16 +82,12 @@ function formatData(data, options) {
   }
   // Find the highest bar.
 
-  var upperLimit = (function() {
-    var result = 0;
-    for (var i = 0; i < dataSets.length; i++) {
-      if (dataSets[i].value > result) {
-        result = dataSets[i].value;
-      }
+  var upperLimit = 0;
+  for (var set = 0; set < dataSets.length; set++) {
+    if (dataSets[set].value > upperLimit) {
+      upperLimit = dataSets[set].value;
     }
-    console.log(result);
-    return result;
-  })();
+  }
 
   return {
     "setCount": setCount,
@@ -188,7 +184,7 @@ function renderBarz(data, options, elem) {
 
   // Place spacers, bars, labels.
 
-  var lineHeight = Math.ceil((height - 115) / (ticks + 0.5));
+  var lineHeight = Math.ceil((height - 50 - bottombarHeight) / (ticks + 0.5));
 
   $(chartId + " .barz-content").append($("<div>", { class: "barz-halfpad" }));
   $(chartId + " .barz-bottombar")
