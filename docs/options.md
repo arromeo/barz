@@ -104,6 +104,20 @@ For multi-bar, the values are set using multiple options:
 { "bar-<name>-a-value": 1, "bar-<name>-b-value": 2 }
 ```
 
+#### Default Bar Color
+Sets the default color for single bar charts. Can be then overridden using the invidual bar color options:
+
+```js
+{ "bar-color": "#00FF00" }
+```
+
+### Individual Bar Color
+Sets the color of a specific bar:
+
+```js
+{ "bar-<name>-color": "#00FF00" }
+```
+
 #### Multibar Colors
 Multibar colors are set the same for all bars.
 
