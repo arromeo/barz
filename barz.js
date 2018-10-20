@@ -57,7 +57,7 @@ function formatData(data, options) {
         keySets.push(data[i]);
         dataSets.push({
           id: data[i],
-          label: (options["bar-" + data[i] + "-label"] || data[i]),
+          label: options["bar-" + data[i] + "-label"] || data[i],
           value: options["bar-" + data[i] + "-value"] || 1,
           color: options["bar-" + data[i] + "-color"] || "#0000FF"
         });
@@ -142,8 +142,8 @@ function renderBarz(data, options, elem) {
   elem.text("");
   elem.append($("<div>", { class: "barz-container" }));
   $(chartId + " .barz-container").append($("<div>", { class: "barz-title"}));
-  $(chartId + " .barz-title").append($("<div>",
-                                       { class: "barz-left-corner-pad" }));
+  $(chartId + " .barz-title")
+      .append($("<div>", { class: "barz-left-corner-pad" }));
   $(chartId + " .barz-title").append($("<p>", {class: "barz-title-text"}));
   $(chartId + " .barz-title-text").text(title);
   $(chartId + " .barz-container").append($("<div>", { class: "barz-body"}));
@@ -152,8 +152,8 @@ function renderBarz(data, options, elem) {
 
   if (options["y-axis-label"] !== "") {
     $(chartId + " .barz-body").append($("<div>", { class: "barz-y-label"}));
-    $(chartId + " .barz-y-label").append($("<p>",
-                                           { class: "barz-y-label-text"}));
+    $(chartId + " .barz-y-label")
+        .append($("<p>", { class: "barz-y-label-text"}));
     $(chartId + " .barz-y-label-text").text(options["y-axis-label"]);
   }
 
@@ -192,8 +192,8 @@ function renderBarz(data, options, elem) {
   var lineHeight = Math.ceil((height - 115) / (ticks + 0.5));
 
   $(chartId + " .barz-content").append($("<div>", { class: "barz-halfpad" }));
-  $(chartId + " .barz-bottombar").append($("<div>",
-                                         { class: "barz-left-corner-pad"}));
+  $(chartId + " .barz-bottombar")
+      .append($("<div>", { class: "barz-left-corner-pad"}));
 
   for (var i = 0; i < data.setCount; i++) {
     var barCssId = "barz-bar-" + i.toString();
@@ -220,9 +220,12 @@ function renderBarz(data, options, elem) {
     if (options.multibar === true) {
 
       //Fill in the bar with sub bars and display number inside bar.
-      $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-a")}));
-      $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-b")}));
-      $(chartId + " ." + barCssId).prepend($("<div>", {class: (barCssId + "-c")}));
+      $(chartId + " ." + barCssId)
+          .prepend($("<div>", {class: (barCssId + "-a")}));
+      $(chartId + " ." + barCssId)
+          .prepend($("<div>", {class: (barCssId + "-b")}));
+      $(chartId + " ." + barCssId)
+          .prepend($("<div>", {class: (barCssId + "-c")}));
 
       if (options["display-numbers"] === true) {
         $(chartId + " ." + barCssId + "-a")
