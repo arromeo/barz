@@ -28,7 +28,8 @@ function setOptions(options) {
     "c-label": "",
     "a-color": "#FF0000",
     "b-color": "#00FF00",
-    "c-color": "#0000FF"
+    "c-color": "#0000FF",
+    "bar-colors": null
   };
 
   // Object.assign starts with the default object and overwrites any values that
@@ -59,7 +60,8 @@ function formatData(data, options) {
           id: data[i],
           label: options["bar-" + data[i] + "-label"] || data[i],
           value: options["bar-" + data[i] + "-value"] || 1,
-          color: options["bar-" + data[i] + "-color"] || "#0000FF"
+          color: options["bar-" + data[i] + "-color"] ||
+              options["bar-colors"] || "#0000FF"
         });
       }
     } else {
