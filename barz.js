@@ -336,70 +336,37 @@ function renderBarz(data, options, elem) {
 
     if (options["a-label"] !== "") {
       $(chartId + " .barz-multi-labels")
-          .append($("<div>", {class: "a-color-box"}));
+          .append($("<div>", {class: "a-color-box colorbox"}));
       $(chartId + " .a-color-box").css({
-        "height": "15px",
-        "width": "15px",
-        "background-color": options["a-color"],
-        "vertical-align": "middle"
+        "background-color": options["a-color"]
       });
+
       $(chartId + " .barz-multi-labels")
-          .append($("<p>", {class: "a-multi-label"}));
-      $(chartId + " .a-multi-label").css({
-        "font-size": "12px",
-        "margin-top": "auto",
-        "padding": "0px 15px 0px 5px",
-        "font-family": "Ariel, Helvetica, sans-serif"
-      });
+          .append($("<p>", {class: "a-multi-label multilabel"}));
       $(chartId + " .a-multi-label").text(options["a-label"]);
     }
 
     if (options["b-label"] !== "") {
       $(chartId + " .barz-multi-labels")
-          .append($("<div>", {class: "b-color-box"}));
+          .append($("<div>", {class: "b-color-box colorbox"}));
       $(chartId + " .b-color-box").css({
-        "height": "15px",
-        "width": "15px",
-        "background-color": options["b-color"],
-        "vertical-align": "middle"
+        "background-color": options["b-color"]
       });
       $(chartId + " .barz-multi-labels")
-          .append($("<p>", {class: "b-multi-label"}));
-      $(chartId + " .b-multi-label").css({
-        "font-size": "12px",
-        "margin-top": "auto",
-        "padding": "0px 15px 0px 5px",
-        "font-family": "Ariel, Helvetica, sans-serif"
-      });
+          .append($("<p>", {class: "b-multi-label multilabel"}));
       $(chartId + " .b-multi-label").text(options["b-label"]);
     }
 
     if (options["c-label"] !== "") {
       $(chartId + " .barz-multi-labels")
-          .append($("<div>", {class: "c-color-box"}));
+          .append($("<div>", {class: "c-color-box colorbox"}));
       $(chartId + " .c-color-box").css({
-        "height": "15px",
-        "width": "15px",
-        "background-color": options["c-color"],
-        "vertical-align": "middle"
+        "background-color": options["c-color"]
       });
       $(chartId + " .barz-multi-labels")
-          .append($("<p>", {class: "c-multi-label"}));
-      $(chartId + " .c-multi-label").css({
-        "font-size": "12px",
-        "margin-top": "auto",
-        "padding": "0px 15px 0px 5px",
-        "font-family": "Ariel, Helvetica, sans-serif",
-      });
+          .append($("<p>", {class: "c-multi-label multilabel"}));
       $(chartId + " .c-multi-label").text(options["c-label"]);
     }
-
-    $(chartId + " .barz-multi-labels").css({
-      "display": "flex",
-      "justify-items": "center",
-      "height": "20px",
-      "width": (width - (sidebarWidth + 50)).toString() + "px"
-    });
   }
 
   // CSS properties.
@@ -516,6 +483,26 @@ function renderBarz(data, options, elem) {
   $(chartId + " .barz-left-corner-pad").css({
     "width": sidebarWidth.toString() + "px",
     "height": "25px"
+  });
+
+  $(chartId + " .colorbox").css({
+    "height": "15px",
+    "width": "15px",
+    "vertical-align": "middle"
+  });
+
+  $(chartId + " .multilabel").css({
+    "font-size": "12px",
+    "margin-top": "auto",
+    "padding": "0px 15px 0px 5px",
+    "font-family": "Ariel, Helvetica, sans-serif"
+  });
+
+  $(chartId + " .barz-multi-labels").css({
+    "display": "flex",
+    "justify-items": "center",
+    "height": "20px",
+    "width": (width - (sidebarWidth + 50)).toString() + "px"
   });
 
 }
