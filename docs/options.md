@@ -104,6 +104,13 @@ For multi-bar, the values are set using multiple options:
 { "bar-<name>-a-value": 1, "bar-<name>-b-value": 2 }
 ```
 
+#### Bar Shadow
+Adds or removes shadow behind bar. Default value is `true`.
+
+```js
+{ "bar-shadow": false }
+```
+
 #### Default Bar Color
 Sets the default color for single bar charts. Can be then overridden using the invidual bar color options:
 
