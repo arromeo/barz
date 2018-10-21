@@ -29,7 +29,8 @@ function setOptions(options) {
     "a-color": "#FF0000",
     "b-color": "#00FF00",
     "c-color": "#0000FF",
-    "bar-colors": null
+    "bar-colors": null,
+    "bar-shadow": true
   };
 
   // Object.assign starts with the default object and overwrites any values that
@@ -206,6 +207,12 @@ function renderBarz(data, options, elem) {
       "flex": "none"
     });
 
+    if (options["bar-shadow"] === true) {
+      $(chartId + " ." + barCssId).css({
+              "box-shadow": "7px 2px 10px -1px rgba(0,0,0,0.68)"
+      });
+    }
+
     if (i + 1 < data.setCount ) {
       $(chartId + " .barz-content").append($("<div>", { class: "barz-pad"}));
     }
@@ -263,19 +270,19 @@ function renderBarz(data, options, elem) {
         "display": "flex",
         "background-color": options["a-color"],
         "width": barWidth.toString() + "px",
-        "height": (data.sets[i].aValue * (lineHeight / skip)).toString() + "px",
+        "height": (data.sets[i].aValue * (lineHeight / skip)).toString() + "px"
       });
       $(chartId + " ." + barCssId + "-b").css({
         "display": "flex",
         "background-color": options["b-color"],
         "width": barWidth.toString() + "px",
-        "height": (data.sets[i].bValue * (lineHeight / skip)).toString() + "px",
+        "height": (data.sets[i].bValue * (lineHeight / skip)).toString() + "px"
       });
       $(chartId + " ." + barCssId + "-c").css({
         "display": "flex",
         "background-color": options["c-color"],
         "width": barWidth.toString() + "px",
-        "height":  (data.sets[i].cValue * (lineHeight / skip)).toString() + "px"
+        "height": (data.sets[i].cValue * (lineHeight / skip)).toString() + "px"
       });
     } else {
       if (options["display-number"] === true) {
