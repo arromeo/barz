@@ -2,6 +2,8 @@
 
 Barz is a JS library to configure and display custom bar charts.
 
+Note: This was a project that I did very early in my development career. The code is not very clean, but I have no plans to maintain or improve this project in the future.
+
 ### Features
 
 - Display both single and multi-bar graphs
